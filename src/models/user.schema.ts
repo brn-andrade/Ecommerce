@@ -6,10 +6,9 @@ export const UserSchema = new Schema({
     password: String,
     seller: {
         type: Boolean,
-        default: false,
+        default: false
     },
-    address: AddressSchema,
+    address: AddressSchema
 }, {
-        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     });
