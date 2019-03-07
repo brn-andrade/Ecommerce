@@ -1,5 +1,6 @@
-import { Schema } from 'mongoose';
+import { Schema, HookNextFunction } from 'mongoose';
 import { AddressSchema } from './address.schema';
+import * as bcrypt from 'bcrypt';
 
 export const UserSchema = new Schema({
     name: String,
@@ -12,3 +13,16 @@ export const UserSchema = new Schema({
 }, {
         timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     });
+
+
+UserSchema.pre('save', async function (next: HookNextFunction) {
+    try {
+        if (!this.isModified('password')) {
+            next();
+        }
+    } catch (error) {
+        const hashed = await bcrypt.hash(this['password'], process.env.SALT_ROUNDS);
+        this['password'] = hashed;
+        return next(error);
+    }
+});

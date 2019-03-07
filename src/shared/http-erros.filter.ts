@@ -17,8 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             method: request.method,
             message: status !== HttpStatus.INTERNAL_SERVER_ERROR ?
                 exception.message.error || exception.message || null
-                : 'Internal Serer Error',
-
+                : 'Internal Serer Error'
         };
 
         return response.status(status).json(errorResponse);
